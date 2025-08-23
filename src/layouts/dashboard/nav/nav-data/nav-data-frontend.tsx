@@ -59,6 +59,10 @@ export const frontendNavData: NavProps["data"] = [
 							},
 						],
 					},
+					{
+						title: "sys.nav.players",
+						path: "/management/players",
+					},
 				],
 			},
 			// menulevel

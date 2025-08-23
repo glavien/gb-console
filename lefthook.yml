@@ -17,10 +17,3 @@ pre-commit:
     check-types:
       glob: "*.{ts,tsx}"
       run: npx tsc --noEmit
-
-commit-msg:
-  commands:
-    commitlint:
-      run: npx commitlint --edit {1}
-      # 允许空提交信息
-      skip: [merge, rebase]

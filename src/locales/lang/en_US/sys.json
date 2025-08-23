@@ -125,6 +125,7 @@
 				"user": "User",
 				"user_detail": "User Detail"
 			},
+			"players": "Players",
 			"toast": "Toast",
 			"token_expired": "Token Expired",
 			"upload": "Upload",

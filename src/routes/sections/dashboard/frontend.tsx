@@ -48,6 +48,10 @@ export const frontendDashboardRoutes: RouteObject[] = [
 					{ path: "user/:id", element: Component("/pages/management/system/user/detail") },
 				],
 			},
+			{
+				path: "players",
+				element: Component("/pages/management/players"),
+			},
 		],
 	},
 	{
