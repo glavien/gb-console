@@ -88,6 +88,16 @@ export const DB_MENU: Menu[] = [
 		component: "/pages/management/players",
 	},
 	{
+		id: "management_players_detail",
+		parentId: "management",
+		name: "sys.nav.players.detail",
+		code: "management:players:detail",
+		type: MENU,
+		path: "/management/players/:id",
+		component: "/pages/management/players/detail",
+		hidden: true,
+	},
+	{
 		id: "management_system_user",
 		parentId: "management_system",
 		name: "sys.nav.system.user",

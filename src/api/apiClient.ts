@@ -21,6 +21,8 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
 	(res: AxiosResponse<any>) => {
+		console.log(res);
+		if ((res.request.responseURL as string).endsWith("signin")) return res.data.data;
 		if (!res.data) throw new Error(t("sys.api.apiRequestFailed"));
 		return res.data;
 	},

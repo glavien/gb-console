@@ -204,6 +204,16 @@ const MANAGEMENT_PERMISSION = {
 			route: "players",
 			component: "/management/players/index.tsx",
 		},
+		{
+			id: "players_detail_123",
+			parentId: "0901673425580518",
+			label: "sys.nav.players.detail",
+			name: "Players Detail",
+			type: PermissionType.MENU,
+			route: "players/:id",
+			component: "/management/players/detail.tsx",
+			hide: true,
+		},
 	],
 };
 const COMPONENTS_PERMISSION = {

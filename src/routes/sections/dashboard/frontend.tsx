@@ -50,7 +50,10 @@ export const frontendDashboardRoutes: RouteObject[] = [
 			},
 			{
 				path: "players",
-				element: Component("/pages/management/players"),
+				children: [
+					{ index: true, element: Component("/pages/management/players") },
+					{ path: ":id", element: Component("/pages/management/players/detail") },
+				],
 			},
 		],
 	},
