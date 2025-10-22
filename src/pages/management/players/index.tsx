@@ -99,6 +99,10 @@ interface Player {
 	createdAt: string;
 }
 
+class PlayersResponse {
+	players: Player[] = [];
+}
+
 export default function PlayersPage() {
 	const { push } = useRouter();
 	const pathname = usePathname();
@@ -110,8 +114,8 @@ export default function PlayersPage() {
 		const fetchPlayers = async () => {
 			try {
 				setLoading(true);
-				const data = await apiClient.get<Player[]>({ url: "/players" });
-				setPlayers(data);
+				const response = await apiClient.get<PlayersResponse>({ url: "/players" });
+				setPlayers(response.players);
 			} catch (error) {
 				console.error("Failed to fetch players:", error);
 				toast.error("Failed to fetch players. Please try again later.", {
