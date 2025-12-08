@@ -1,18 +1,55 @@
-﻿// F:\...\gb-console\src\pages\management\players\detail.tsx
-
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useParams } from "@/routes/hooks";
 import { Card, CardContent, CardHeader } from "@/ui/card";
 import apiClient from "@/api/apiClient";
 
-// --- Типы данных ---
-interface Field { Id: string; Name: string; Value?: any; }
-interface CardData { Id: string; Name: string; Fields: Field[]; }
-interface Category { Id: string; Name: string; Cards: CardData[]; }
-interface Section { Id: string; Name: string; Categories: Category[]; }
-interface PlayerApiResponse { Player: { Id: number; DeviceId: string; }; Section: Section; FieldIdToValues: Record<string, any>; }
+enum FieldType {
+	Int = 0,
+	Float = 1,
+	String = 2,
+	Bool = 3,
+	DateTime = 4,
+}
 
-// --- Компонент страницы ---
+interface Field {
+	Id: string;
+	Name: string;
+	Type: number;
+	DefInt?: number;
+	DefFloat?: number;
+	DefString?: string;
+	DefBool?: boolean;
+	DefDateTime?: string;
+	Value?: any;
+}
+
+interface CardData {
+	Id: string;
+	Name: string;
+	Fields: Field[];
+}
+
+interface Category {
+	Id: string;
+	Name: string;
+	Cards: CardData[];
+}
+
+interface Section {
+	Id: string;
+	Name: string;
+	Categories: Category[];
+}
+
+interface PlayerApiResponse {
+	Player: {
+		Id: number;
+		DeviceId: string;
+	};
+	Section: Section;
+	FieldIdToValues: Record<string, any>;
+}
+
 export default function PlayerProfilePage() {
 	const { id } = useParams();
 	const [playerData, setPlayerData] = useState<PlayerApiResponse | null>(null);
@@ -32,8 +69,27 @@ export default function PlayerProfilePage() {
 						category.Cards.forEach((card) => {
 							card.Fields.forEach((field) => {
 								const valueObject = data.FieldIdToValues[field.Id];
+
 								if (valueObject) {
 									field.Value = Object.values(valueObject)[0];
+								} else {
+									switch (field.Type) {
+										case FieldType.Int:
+											field.Value = field.DefInt;
+											break;
+										case FieldType.Float:
+											field.Value = field.DefFloat;
+											break;
+										case FieldType.String:
+											field.Value = field.DefString;
+											break;
+										case FieldType.Bool:
+											field.Value = field.DefBool;
+											break;
+										case FieldType.DateTime:
+											field.Value = field.DefDateTime;
+											break;
+									}
 								}
 							});
 						});
@@ -61,8 +117,9 @@ export default function PlayerProfilePage() {
 		<div className="space-y-4">
 			<Card>
 				<CardHeader>
-					{/* ИСПРАВЛЕНИЕ: Добавлены ?. для безопасности */}
-					<div className="text-lg font-medium">Player Profile: {playerData?.Player?.DeviceId}</div>
+					<div className="text-lg font-medium">
+						Player Profile: {playerData?.Player?.DeviceId}
+					</div>
 				</CardHeader>
 			</Card>
 
@@ -93,7 +150,11 @@ export default function PlayerProfilePage() {
 								{card.Fields?.map((field) => (
 									<div key={field.Id} className="flex justify-between text-sm">
 										<span className="text-text-secondary">{field.Name}</span>
-										<span className="font-medium">{String(field.Value ?? "N/A")}</span>
+										<span className="font-medium">
+											{field.Value !== null && field.Value !== undefined
+												? String(field.Value)
+												: "N/A"}
+										</span>
 									</div>
 								))}
 							</div>
