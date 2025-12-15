@@ -25,9 +25,10 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 	const { loginState, setLoginState } = useLoginStateContext();
 	const signIn = useSignIn();
 
+	// ОБНОВЛЕНО: Используем поле login вместо username
 	const form = useForm<SignInReq>({
 		defaultValues: {
-			username: DB_USER[0].username,
+			login: DB_USER[0].username, // Берем дефолтное имя из моков, но кладем в поле login
 			password: DB_USER[0].password,
 		},
 	});
@@ -56,14 +57,16 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 						<p className="text-balance text-sm text-muted-foreground">{t("sys.login.signInFormDescription")}</p>
 					</div>
 
+					{/* ОБНОВЛЕНО: name="login" */}
 					<FormField
 						control={form.control}
-						name="username"
+						name="login"
 						rules={{ required: t("sys.login.accountPlaceholder") }}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>{t("sys.login.userName")}</FormLabel>
 								<FormControl>
+									{/* Placeholder оставляем для красоты, он берет данные из мока */}
 									<Input placeholder={DB_USER.map((user) => user.username).join("/")} {...field} />
 								</FormControl>
 								<FormMessage />
@@ -86,7 +89,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 						)}
 					/>
 
-					{/* 记住我/忘记密码 */}
 					<div className="flex flex-row justify-between">
 						<div className="flex items-center space-x-2">
 							<Checkbox id="remember" checked={remember} onCheckedChange={(checked) => setRemember(checked === "indeterminate" ? false : checked)} />
@@ -99,13 +101,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 						</Button>
 					</div>
 
-					{/* 登录按钮 */}
 					<Button type="submit" className="w-full">
 						{loading && <Loader2 className="animate-spin mr-2" />}
 						{t("sys.login.loginButton")}
 					</Button>
 
-					{/* 手机登录/二维码登录 */}
 					<div className="grid gap-4 sm:grid-cols-2">
 						<Button variant="outline" className="w-full" onClick={() => setLoginState(LoginStateEnum.MOBILE)}>
 							<Icon icon="uil:mobile-android" size={20} />
@@ -117,7 +117,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 						</Button>
 					</div>
 
-					{/* 其他登录方式 */}
 					<div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
 						<span className="relative z-10 bg-background px-2 text-muted-foreground">{t("sys.login.otherSignIn")}</span>
 					</div>
@@ -133,7 +132,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 						</Button>
 					</div>
 
-					{/* 注册 */}
 					<div className="text-center text-sm">
 						{t("sys.login.noAccount")}
 						<Button variant="link" className="px-1" onClick={() => setLoginState(LoginStateEnum.REGISTER)}>
