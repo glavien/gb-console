@@ -1,8 +1,5 @@
-import { Icon } from "@/components/icon";
-import LocalePicker from "@/components/locale-picker";
-import { useSettings } from "@/store/settingStore";
-import { Button } from "@/ui/button";
 import { cn } from "@/utils";
+import { useSettings } from "@/store/settingStore";
 import type { ReactNode } from "react";
 import AccountDropdown from "../components/account-dropdown";
 import BreadCrumb from "../components/bread-crumb";
@@ -34,23 +31,7 @@ export default function Header({ leftSlot }: HeaderProps) {
 
 			<div className="flex items-center gap-1">
 				<SearchBar />
-				<LocalePicker />
-				<Button
-					variant="ghost"
-					size="icon"
-					className="rounded-full"
-					onClick={() => window.open("https://github.com/d3george/slash-admin")}
-				>
-					<Icon icon="mdi:github" size={24} />
-				</Button>
-				<Button
-					variant="ghost"
-					size="icon"
-					className="rounded-full"
-					onClick={() => window.open("https://discord.gg/fXemAXVNDa")}
-				>
-					<Icon icon="carbon:logo-discord" size={24} />
-				</Button>
+				{/* Удалили LocalePicker, Github и Discord кнопки */}
 				<NoticeButton />
 				<SettingButton />
 				<AccountDropdown />
