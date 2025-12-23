@@ -37,8 +37,8 @@ const useUserStore = create<UserStore>()(
 			},
 		}),
 		{
-			name: "userStore", // name of the item in the storage (must be unique)
-			storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+			name: "userStore",
+			storage: createJSONStorage(() => localStorage),
 			partialize: (state) => ({
 				[StorageEnum.UserInfo]: state.userInfo,
 				[StorageEnum.UserToken]: state.userToken,
@@ -63,11 +63,27 @@ export const useSignIn = () => {
 	const signIn = async (data: SignInReq) => {
 		try {
 			const res = await signInMutation.mutateAsync(data);
-			const { user, accessToken, refreshToken } = res;
-			setUserToken({ accessToken, refreshToken });
-			setUserInfo(user);
+			
+			const { id, token, role } = res;
+			
+			setUserToken({ 
+				accessToken: token, 
+				refreshToken: "" 
+			});
+			
+			// ИСПРАВЛЕНИЕ:
+			// 1. Добавили поле email (пустое, так как бек его не прислал).
+			// 2. Используем 'as UserInfo', чтобы TS поверил, что объект полный, 
+			//    даже если не хватает avatar или других полей.
+			setUserInfo({
+				id: id,
+				username: data.login, 
+				email: "", 
+				roles: [role as any], 
+			} as UserInfo);
+
 		} catch (err) {
-			toast.error(err.message, {
+			toast.error((err as any).message || "Login failed", {
 				position: "top-center",
 			});
 			throw err;
