@@ -28,9 +28,8 @@ export type GlobalConfig = {
 export const GLOBAL_CONFIG: GlobalConfig = {
 	appName: "Gameback Console",
 	appVersion: packageJson.version,
-	defaultRoute: import.meta.env.VITE_APP_DEFAULT_ROUTE || "/workbench",
+	defaultRoute: import.meta.env.VITE_APP_DEFAULT_ROUTE || "/management/players",
 	publicPath: import.meta.env.VITE_APP_PUBLIC_PATH || "/",
-	// По умолчанию (для продакшена) используем /api
 	apiBaseUrl: import.meta.env.VITE_APP_API_BASE_URL || "/api",
 	routerMode: import.meta.env.VITE_APP_ROUTER_MODE || "frontend",
 };
